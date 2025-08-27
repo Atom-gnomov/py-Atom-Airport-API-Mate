@@ -101,7 +101,7 @@ class FlightListSerializer(serializers.ModelSerializer):
 
 
 class FlightDetailSerializer(serializers.ModelSerializer):
-    route = RouteSerializer(read_only=True)
+    route = RouteDetailSerializer(read_only=True)
     airplane = AirplaneSerializer(read_only=True)
     crew = CrewSerializer(many=True, read_only=True)
 
@@ -111,7 +111,7 @@ class FlightDetailSerializer(serializers.ModelSerializer):
 
 
 class TicketListSerializer(serializers.ModelSerializer):
-    flight = serializers.StringRelatedField()
+    flight = FlightDetailSerializer(read_only=True)
     order = serializers.StringRelatedField()
 
     class Meta:
