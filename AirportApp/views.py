@@ -1,6 +1,5 @@
-from django.shortcuts import render
 from rest_framework import viewsets
-from AirportApp.models import Crew, Ticket, Airport, Airplane, AirplaneType, Route, Flight, Order
+from .models import Crew, Ticket, Airport, Airplane, AirplaneType, Route, Flight, Order
 from .serializers import AirportSerializer, CrewSerializer, AirplaneTypeSerializer, AirplaneSerializer, \
     AirplaneDetailSerializer, AirplaneListSerializer
 
