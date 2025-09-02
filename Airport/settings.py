@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -78,12 +78,20 @@ WSGI_APPLICATION = 'Airport.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DJANGO_DB_NAME', 'airport_db'),
+        'USER': os.environ.get('DJANGO_DB_USER', 'airport_user'),
+        'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'airport_pass'),
+        'HOST': os.environ.get('DJANGO_DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DJANGO_DB_PORT', 5432),
     }
 }
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'unsafe-secret-key')
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 AUTH_USER_MODEL = 'auth.User'
 # Password validation

@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: airport_db
+    environment:
+      POSTGRES_USER: airport_user
+      POSTGRES_PASSWORD: airport_pass
+      POSTGRES_DB: airport_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - airport_network
+
+  web:
+    build: .
+    container_name: airport_api
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_DB_NAME: airport_db
+      DJANGO_DB_USER: airport_user
+      DJANGO_DB_PASSWORD: airport_pass
+      DJANGO_DB_HOST: db
+      DJANGO_DB_PORT: 5432
+      DJANGO_SECRET_KEY: supersecretkey
+      DJANGO_DEBUG: "True"
+    depends_on:
+      - db
+    networks:
+      - airport_network
+
+volumes:
+  postgres_data:
+
+networks:
+  airport_network:
